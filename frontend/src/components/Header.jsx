@@ -1,5 +1,5 @@
 import React from 'react';
-import doctors from '../assets/doctors.png'; 
+import doctorImg from './../assets/doctors.jpg'
 
 const Header = () => {
   return (
@@ -13,7 +13,7 @@ const Header = () => {
       </div>
 
       <div>
-        <img src={doctors} alt="Doctors illustration" style={{ maxWidth: '400px', height: 'auto' }} />
+        <img src={doctorImg} alt="Doctors illustration" style={{ maxWidth: '400px', height: 'auto' }} />
       </div>
     </div>
   );
