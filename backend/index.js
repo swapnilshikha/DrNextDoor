@@ -6,8 +6,9 @@ const authRoutes = require('./routes/authRoutes');
 const doctorRoutes = require('./routes/doctorRoutes'); 
 
 dotenv.config();
+const cors=require('cors');
+const patientRouter = require('./routes/Patient.router.js');
 
-const app = express();
 
 // Connect to MongoDB
 connectDB();
@@ -18,10 +19,10 @@ app.use(cors());
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/doctors', doctorRoutes);  // Ensure this is correctly added
+app.use('/api/doctors', doctorRoutes); 
+app.use('/patient',patientRouter)
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, function(){
+    console.log(`Server started at port ${PORT}`)
+    dbConnect();
+})
