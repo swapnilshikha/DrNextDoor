@@ -1,20 +1,27 @@
-const path = require('path')
 const express = require('express');
-const dbConnect = require('./utils/db');
+const connectDB = require('./config/db');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const authRoutes = require('./routes/authRoutes');
+const doctorRoutes = require('./routes/doctorRoutes'); 
 
-const cors=require('cors')
+dotenv.config();
 
-require('dotenv').config()
+const app = express();
 
+// Connect to MongoDB
+connectDB();
+
+// Middleware
+app.use(express.json());
+app.use(cors());
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/doctors', doctorRoutes);  // Ensure this is correctly added
+
+// Start the server
 const PORT = process.env.PORT || 5000;
-const app = express()
-
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-
-
-app.listen(PORT, function(){
-    console.log(`Server started at port ${PORT}`)
-    dbConnect();
-})
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

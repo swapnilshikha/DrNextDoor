@@ -33,4 +33,3 @@ export const fetchDoctorProfile = async () => {
     }, 1000); // Simulate network delay
   });
 };
-

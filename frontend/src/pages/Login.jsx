@@ -1,11 +1,8 @@
-import React from 'react'
+import React from 'react';
+import DoctorLogin from '../components/DoctorLogin';
 
 const Login = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <DoctorLogin />;
+};
 
-export default Login
+export default Login;
