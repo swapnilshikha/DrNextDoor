@@ -16,12 +16,8 @@
     "nodemon": "^3.1.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-<<<<<<< HEAD
-    "react-router-dom": "^7.5.1"
-=======
-    "react-icons": "^5.5.0",
-    "react-router-dom": "^7.5.0"
->>>>>>> 01ab059c8e88f3d24467df077e9343b1eb77c695
+    "react-router-dom": "^7.5.1",
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

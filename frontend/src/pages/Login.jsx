@@ -1,9 +1,9 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { API } from './../utils/utils'
 import { useAuth } from './../context/AuthPatient'
 import { useNavigate } from 'react-router-dom'
-import './Login.css'
+import loginBack from './../assets/login-back.jpg'
 const Login = () => {
     const { login } = useAuth()
     const navigate = useNavigate()
@@ -29,8 +29,25 @@ const Login = () => {
         }
         setLoading(false)
     }
+    useEffect(() => {
+        document.body.style.backgroundImage = `url(${loginBack})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundPosition = 'center';
 
+        
+    }, []);
     return (
+        <>
+        <style>
+            {`
+            
+            .card{
+                background-color: rgba(0,0,0,0.8);
+                border-radius: 20px;
+            }
+            `}
+        </style>
         <div className="row" style={{marginTop:"15%"}}>
             <div className="col-md-6 mx-auto">
                 <div className="card">
@@ -69,6 +86,7 @@ const Login = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 
