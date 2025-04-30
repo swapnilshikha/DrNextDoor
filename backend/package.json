@@ -7,9 +7,11 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
+<<<<<<< HEAD
     "bcrypt": "^5.1.1",
+=======
+>>>>>>> 4e1cedeea609912454a54c414ffc8e447c4110ad
     "bcryptjs": "^3.0.2",
     "config": "^3.3.12",
     "cors": "^2.8.5",
@@ -18,7 +20,14 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.2",
     "multer": "^1.4.5-lts.2",
+<<<<<<< HEAD
+    "nodemon": "^3.1.9"
+  },
+  "keywords": [],
+  "description": ""
+=======
     "nodemon": "^3.1.9",
     "validator": "^13.15.0"
   }
+>>>>>>> 01ab059c8e88f3d24467df077e9343b1eb77c695
 }
