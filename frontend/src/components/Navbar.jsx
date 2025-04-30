@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-/*import React from 'react'
-import { Link } from 'react-router-dom'
-=======
 import React from 'react'
 import { useState } from 'react'
 import { Link , useNavigate} from 'react-router-dom'
 import { FaChevronDown } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 
->>>>>>> 01ab059c8e88f3d24467df077e9343b1eb77c695
 
 const Navbar = () => {
 
@@ -81,4 +76,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar*/
+export default Navbar
