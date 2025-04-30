@@ -15,7 +15,7 @@ const Register = () => {
     const imageRef=useRef()
     const addline1Ref=useRef()
     const addline2Ref=useRef()
-    const genderRef=useState("")
+    const gender=useState("")
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -65,9 +65,8 @@ const Register = () => {
                         <input ref={addline2Ref} type='text' className='form-control mb-2' placeholder='Line 2'/>
                         Select your gender
                         <input type='radio' value="Male"/>Male
-                        <input type='radio' value="Female"/>
+                        <input type='radio' value="Female"/>female
                         <input ref={mobileRef} type='text' className='form-control mb-2' placeholder='Mobile' required /> 
-                        <input ref={sicRef} type='text' className='form-control mb-2' placeholder='SIC' required /> 
                         {
                             !loading && <input type='submit' value="Sign Up" className='btn btn-primary' />
                         }
