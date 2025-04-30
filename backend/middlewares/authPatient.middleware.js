@@ -8,7 +8,7 @@ const authPatient=(req,res,next)=>{
     let token=authHeader.split(" ")[1]
     try{
         let decoded=jwt.verify(token,process.env.JWT_SECRET)
-        req.body.patientId=decoded.id
+        req.patientId=decoded.id
         next()
     }
     catch(error){

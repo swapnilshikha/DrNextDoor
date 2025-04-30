@@ -21,6 +21,9 @@ import Login from "./pages/Login"
 import Contact from "./pages/Contact"
 
 
+import Register from './pages/Register'
+import {AuthProvider} from './context/AuthPatient'
+
 const App = () => {
   const router=createBrowserRouter([
     {
@@ -29,11 +32,17 @@ const App = () => {
         {path:"/",element:<Home/>},
         {path:"/appointments",element:<Appointments/>},
         {path:"/profile",element:<Profile/>},
-
+                {path:"/login",element:<Login/>},
+        {path:"/register",element:<Register/>}
       ]
     }
   ])
-  return <RouterProvider router={router}/>
+  return(
+    <AuthProvider>
+      <RouterProvider router={router}/>
+    </AuthProvider>
+  ) 
 }
 
 export default App
+
