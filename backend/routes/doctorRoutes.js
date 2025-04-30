@@ -1,32 +1,42 @@
-// backend/routes/doctorsRoutes.js
-
 const express = require('express');
-const router = express.Router();
+const { registerDoctor, loginDoctor } = require('../controllers/doctorController.js');
+const authenticateToken = require('../middlewares/authenticateDoctor.js');
 const Doctor = require('../models/Doctor');
-const authenticateToken = require('../middleware/authenticateToken');
 
-router.get('/profile', authenticateToken, async (req, res) => {
+const doctorRouter = express.Router();
+
+// Register doctor
+doctorRouter.post('/register', registerDoctor);
+
+// Login doctor
+doctorRouter.post('/login', loginDoctor);
+
+// Get Doctor Profile (Protected)
+doctorRouter.get('/profile', authenticateToken, async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.user.id).select('-password');
     if (!doctor) {
-      return res.status(404).json({ msg: 'Doctor not found' });
+      return res.status(404).send({ message: 'Doctor not found' });
     }
-    res.json(doctor);
-  } catch (error) {
-    res.status(500).json({ msg: 'Server Error' });
-  }
-});
-
-router.get('/', async (req, res) => {
-  try {
-    const doctors = await Doctor.find().select('-password');
-    res.json(doctors);
+    res.status(200).send(doctor);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Server Error');
+    res.status(500).send({ message: 'Server Error' });
   }
 });
 
-module.exports = router;
+// Get all doctors (Public)
+doctorRouter.get('/', async (req, res) => {
+  try {
+    const doctors = await Doctor.find().select('-password');
+    res.status(200).send(doctors);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ message: 'Server Error' });
+  }
+});
+
+module.exports = doctorRouter;
+
 
 
