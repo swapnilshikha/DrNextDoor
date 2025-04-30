@@ -13,6 +13,8 @@ import About from "./pages/About"
 import Doctors from "./pages/Doctors"
 import Login from "./pages/Login"
 import Contact from "./pages/Contact"
+import Register from './pages/Register'
+import {AuthProvider} from './context/AuthPatient'
 
 
 const App = () => {
@@ -21,10 +23,16 @@ const App = () => {
       path:"/",element:<MainLayout/>,
       children:[
         {path:"/",element:<Home/>},
+        {path:"/login",element:<Login/>},
+        {path:"/register",element:<Register/>}
       ]
     }
   ])
-  return <RouterProvider router={router}/>
+  return(
+    <AuthProvider>
+      <RouterProvider router={router}/>
+    </AuthProvider>
+  ) 
 }
 
 export default App

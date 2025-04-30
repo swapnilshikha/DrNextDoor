@@ -1,6 +1,7 @@
 const validator=require('validator')
 const patientModel=require('./../models/Patient.model.js')
 const jwt=require('jsonwebtoken')
+const bcrypt=require('bcryptjs')
 
 //Patient registration
 const patientRegister=async(req,res)=>{
@@ -16,12 +17,16 @@ const patientRegister=async(req,res)=>{
             res.status(400).send({message:"Please enter a strong password"})
         }
 
-        const pateintData={
+        const patientData={
             name,
             email,
             password
         }
-        let patient=await patientModel.create(pateintData)
+
+        const salt=await bcrypt.genSalt(10)
+        patientData.password=await bcrypt.hash(password,salt)
+        
+        let patient=await patientModel.create(patientData)
         const token=jwt.sign({id:patient._id},process.env.JWT_SECRET)
         res.status(200).send({token})
     }
@@ -36,7 +41,9 @@ const patientLogin=async(req,res)=>{
         let { email, password } = req.body
         let patient = await patientModel.findOne({email})
         if(patient){
-            if(patient.password === password){
+            const isMatch=await bcrypt.compare(password,patient.password)
+            
+            if(isMatch){
                 let token = jwt.sign({id: patient.id, email: patient.email}, process.env.JWT_SECRET)
                 res.status(200).send({token: token, patient: patient.id})
             } else {
@@ -51,9 +58,10 @@ const patientLogin=async(req,res)=>{
     }
 }
 
+//getting patient data
 const getPatientData=async(req,res)=>{
     try{
-        const {patientId}=req.body
+        const {patientId}=req        
         const patientData=await patientModel.findById(patientId).select('-password')
         res.status(200).send({patientData})
     }
