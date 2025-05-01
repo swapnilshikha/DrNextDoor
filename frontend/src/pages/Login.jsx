@@ -1,11 +1,11 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { API } from './../utils/utils'
-import { useAuth } from './../context/AuthPatient'
 import { useNavigate } from 'react-router-dom'
 import loginBack from './../assets/login-back.jpg'
-const Login = () => {
-    const { login } = useAuth()
+import { FaUserMd } from 'react-icons/fa'
+
+const DoctorLogin = () => {
     const navigate = useNavigate()
 
     const [email, setEmail] = useState('')
@@ -13,81 +13,162 @@ const Login = () => {
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
         setMessage("")
+
         try {
-            let data = await axios.post(`${API}/patient/login`, {email, password})
-            console.log(data)
-            login(data.data)
+            const res = await axios.post(`${API}/patient/login`, { email, password })
+            console.log(res)
             setEmail("")
             setPassword("")
             navigate("/")
         } catch (error) {
             setMessage("Invalid Credentials")
         }
+
         setLoading(false)
     }
-    useEffect(() => {
-        document.body.style.backgroundImage = `url(${loginBack})`;
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.backgroundRepeat = 'no-repeat';
-        document.body.style.backgroundPosition = 'center';
 
-        
-    }, []);
+    useEffect(() => {
+        document.body.style.backgroundImage = `url(${loginBack})`
+        document.body.style.backgroundSize = 'cover'
+        document.body.style.backgroundRepeat = 'no-repeat'
+        document.body.style.backgroundPosition = 'center'
+    }, [])
+
     return (
         <>
-        <style>
-            {`
-            
-            .card{
-                background-color: rgba(0,0,0,0.8);
-                border-radius: 20px;
-            }
-            `}
-        </style>
-        <div className="row" style={{marginTop:"15%"}}>
-            <div className="col-md-6 mx-auto">
-                <div className="card">
-                    <div className="card-header">
-                        <h3 style={{color:"white" ,textAlign:"center"}}>Log In Here</h3>
-                        <p>{message}</p>
-                    </div>
-                    <div className="card-body">
-                        <form method="post" onSubmit={handleSubmit}>
-                            <input
-                                type="email"
-                                className="form-control mb-2"
-                                placeholder="Email"
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="password"
-                                className="form-control mb-2"
-                                placeholder="Password"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                                required
-                            />
-                            {!loading && (
-                                <input
-                                    type="submit"
-                                    value="Log In"
-                                    className="btn btn-secondary"
-                                    style={{marginLeft:"40%"}}
-                                />
-                            )}
-                        </form>
+            <style>
+                {`
+                    .doctor-login-card {
+                        background: rgba(0, 0, 0, 0.6);
+                        color: white;
+                        padding: 60px 40px;
+                        border-radius: 20px;
+                        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+                        max-width: 520px;
+                        width: 100%;
+                        height: 600px;
+                        animation: fadeIn 0.5s ease-in-out;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+
+                    .form-control {
+                        background-color: #121212;
+                        border: 1px solid #333;
+                        color: white;
+                        height: 45px;
+                        font-size: 16px;
+                    }
+
+                    .form-control::placeholder {
+                        color: #bbb;
+                    }
+
+                    .login-btn {
+                        width: 100%;
+                        padding: 12px;
+                        background-color: white;
+                        color: black;
+                        font-weight: bold;
+                        border: none;
+                        border-radius: 10px;
+                        transition: all 0.3s ease;
+                    }
+
+                    .login-btn:hover {
+                        background-color: #e6e6e6;
+                    }
+
+                    .message-text {
+                        color: #ff4d4d;
+                        text-align: center;
+                        margin-top: 10px;
+                        font-weight: bold;
+                    }
+
+                    .forgot-link {
+                        font-size: 14px;
+                        color: #ccc;
+                        text-align: right;
+                        margin-top: 5px;
+                        cursor: pointer;
+                    }
+
+                    .forgot-link:hover {
+                        text-decoration: underline;
+                        color: white;
+                    }
+
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(30px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                `}
+            </style>
+
+            <div className="container-fluid">
+                <div className="row align-items-center" style={{ height: "87vh" }}>
+                    <div className="col-md-7"></div>
+                    <div className="col-md-5 d-flex justify-content-center align-items-center">
+                        <div className="doctor-login-card">
+                            <div>
+                                <div className="text-center mb-4">
+                                    <FaUserMd size={40} style={{ color: 'white' }} />
+                                    <h2 className="mt-2">Welcome,Login Here</h2>
+                                    <p style={{ fontSize: "14px", color: "#bbb" }}>
+                                        Please login to access your dashboard
+                                    </p>
+                                </div>
+
+                                {message && <p className="message-text">{message}</p>}
+
+                                <form onSubmit={handleSubmit}>
+                                    <div className="mb-3">
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            placeholder="Email"
+                                            value={email}
+                                            onChange={e => setEmail(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="mb-2">
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            placeholder="Password"
+                                            value={password}
+                                            onChange={e => setPassword(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="forgot-link">Forgot password?</div>
+                                    <button type="submit" className="login-btn mt-4" disabled={loading}>
+                                        {loading ? "Logging in..." : "Log In"}
+                                    </button>
+                                </form>
+                            </div>
+                            <div className="text-center" style={{ fontSize: "12px", color: "#aaa", marginTop: "10px" }}>
+                                © 2025 DrNextDoor • All rights reserved
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </>
     )
 }
 
-export default Login
+export default DoctorLogin

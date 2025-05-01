@@ -6,10 +6,10 @@ const Doctor = require('../models/Doctor');
 // Register a new doctor
 const registerDoctor = async (req, res) => {
   try {
-    const { name, email, password, specialty } = req.body;
+    const { name, email, password, specialization } = req.body;
 
     // Input validation
-    if (!name || !email || !password || !specialty) {
+    if (!name || !email || !password || !specialization) {
       return res.status(400).send({ message: "Please enter all required details" });
     }
 
@@ -30,7 +30,7 @@ const registerDoctor = async (req, res) => {
       name,
       email,
       password,
-      specialty,
+      specialization,
     });
 
     // Hash the password
