@@ -13,9 +13,11 @@ import Login from "./pages/Login"
 import Contact from "./pages/Contact"
 
 
+
 import Register from './pages/Register'
 import Home from './pages/Home'
 import {AuthProvider} from './context/AuthPatient'
+import Appointments from './pages/DoctorDashboard';
 
 const App = () => {
   const router=createBrowserRouter([
@@ -25,7 +27,7 @@ const App = () => {
         {path:"/",element:<Home/>},
         {path:"/appointments",element:<Appointments/>},
         {path:"/profile",element:<Profile/>},
-                {path:"/login",element:<Login/>},
+        {path:"/login",element:<Login/>},
         {path:"/register",element:<Register/>}
       ]
     }
