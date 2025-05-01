@@ -1,20 +1,21 @@
-const path = require('path')
 const express = require('express');
-const dbConnect = require('./utils/db');
+const connectDB = require('./config/db');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const doctorRoutes = require('./routes/doctorRoutes'); 
+const patientRouter = require('./routes/Patient.router.js');
+const app=express()
+const PORT=process.env.PORT || 5000;
+dotenv.config();
+// Middleware
+app.use(express.json());
+app.use(cors());
 
-const cors=require('cors')
-
-require('dotenv').config()
-
-const PORT = process.env.PORT || 5000;
-const app = express()
-
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-
+// Routes
+app.use('/api/doctors', doctorRoutes); //handles register, login, profile, all doctors
+app.use('/patient',patientRouter)
 
 app.listen(PORT, function(){
     console.log(`Server started at port ${PORT}`)
-    dbConnect();
+    connectDB();
 })

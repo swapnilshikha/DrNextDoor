@@ -1,7 +1,6 @@
-
+// services/api.js
 import axios from 'axios';
-//This page will show my-appointsments ---> history of user.
-import React from 'react'
+
 // Mock data for appointments
 const mockAppointments = [
   { id: 1, patientName: 'John Doe', date: '2025-04-21', time: '10:00 AM', status: 'Scheduled' },
@@ -34,4 +33,3 @@ export const fetchDoctorProfile = async () => {
     }, 1000); // Simulate network delay
   });
 };
-
