@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-// services/api.js
+
 import axios from 'axios';
-=======
 //This page will show my-appointsments ---> history of user.
 import React from 'react'
->>>>>>> 01ab059c8e88f3d24467df077e9343b1eb77c695
-
 // Mock data for appointments
 const mockAppointments = [
   { id: 1, patientName: 'John Doe', date: '2025-04-21', time: '10:00 AM', status: 'Scheduled' },

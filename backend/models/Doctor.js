@@ -4,8 +4,10 @@ const doctorSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  specialty: { type: String, required: true },
-  profileImage: { type: String }, // Optional, for profile picture
+  specialization: { type: String, required: true },
+  profileImage: { type: String, required: true }, // Now required
+  experience: { type: String, required: true },
+  bioMessage: { type: String, required: true },
 });
 
 const Doctor = mongoose.model('Doctor', doctorSchema);

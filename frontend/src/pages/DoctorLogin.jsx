@@ -1,6 +1,5 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { API } from './../utils/utils'
 import { useNavigate } from 'react-router-dom'
 import loginBack from './../assets/login-back.jpg'
 import { FaUserMd } from 'react-icons/fa'
@@ -19,11 +18,12 @@ const DoctorLogin = () => {
         setMessage("")
 
         try {
-            const res = await axios.post(`${API}/patient/login`, { email, password })
-            console.log(res)
+            const res = await axios.post('http://localhost:5000/api/doctors/login', { email, password })
+            localStorage.setItem("doctorToken", res.data.token)
+            localStorage.setItem("doctorId", res.data.doctorId)
             setEmail("")
             setPassword("")
-            navigate("/")
+            navigate("/doctors/dashboard")
         } catch (error) {
             setMessage("Invalid Credentials")
         }
@@ -125,7 +125,7 @@ const DoctorLogin = () => {
                             <div>
                                 <div className="text-center mb-4">
                                     <FaUserMd size={40} style={{ color: 'white' }} />
-                                    <h2 className="mt-2">Welcome,Login Here</h2>
+                                    <h2 className="mt-2">Welcome, Doctor</h2>
                                     <p style={{ fontSize: "14px", color: "#bbb" }}>
                                         Please login to access your dashboard
                                     </p>
