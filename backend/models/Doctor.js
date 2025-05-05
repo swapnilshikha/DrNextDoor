@@ -8,6 +8,7 @@ const doctorSchema = new mongoose.Schema({
   profileImage: { type: String, required: true }, // Now required
   experience: { type: String, required: true },
   bioMessage: { type: String, required: true },
+  approved:{type:String,default:"not approved"},
 });
 
 const Doctor = mongoose.model('Doctor', doctorSchema);

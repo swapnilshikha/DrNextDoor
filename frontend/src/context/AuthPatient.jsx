@@ -1,30 +1,80 @@
-import { createContext,useContext,useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-const AuthContext=createContext()
-export const AuthProvider=({children})=>{
-    const [patient,setPatient]=useState(localStorage.getItem("patient"))
-    const [token,setToken]=useState(localStorage.getItem("patientToken"))
+const AuthContext = createContext();
 
-    function login(data){
-        setPatient(data.patient)
-        setToken(data.token)
-        localStorage.setItem("patient",JSON.stringify(data.patient))
-        localStorage.setItem("patientToken",data.token)
-    }
-    function logout(){
-        setPatient(null)
-        setToken(null)
-        localStorage.removeItem("patient")
-        localStorage.removeItem("patientToken")
-    }
+export const AuthProvider = ({ children }) => {
+  // PATIENT AUTH STATES
+  const [patient, setPatient] = useState(()=>{
+    const storedPatient=localStorage.getItem('patient');
+    return storedPatient?JSON.parse(storedPatient):null
+  }
+  );
+  const [patientToken, setPatientToken] = useState(
+    localStorage.getItem("patientToken")
+  );
 
-    return(
-        <AuthContext.Provider value={{patient,token,login,logout}}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+  // DOCTOR AUTH STATES
+  const [doctor, setDoctor] = useState(()=>{
+    const storedDoctor=localStorage.getItem('doctor');
+    return storedDoctor?JSON.parse(localStorage.getItem("doctor")):null
 
-export const useAuth=()=>{
-    return useContext(AuthContext)
-}
+  }
+  );
+  const [doctorToken, setDoctorToken] = useState(
+    localStorage.getItem("doctorToken")
+  );
+
+  // PATIENT LOGIN / LOGOUT
+  const login = (data) => {
+    setPatient(data.patient);
+    setPatientToken(data.token);
+    localStorage.setItem("patient", JSON.stringify(data.patient));
+    localStorage.setItem("patientToken", data.token);
+  };
+
+  const logout = () => {
+    setPatient(null);
+    setPatientToken(null);
+    localStorage.removeItem("patient");
+    localStorage.removeItem("patientToken");
+  };
+
+  // DOCTOR LOGIN / LOGOUT
+  const loginDoctor = (data) => {
+    setDoctor(data.doctor);
+    setDoctorToken(data.token);
+    localStorage.setItem("doctor", JSON.stringify(data.doctor));
+    localStorage.setItem("doctorToken", data.token);
+  };
+
+  const logoutDoctor = () => {
+    setDoctor(null);
+    setDoctorToken(null);
+    localStorage.removeItem("doctor");
+    localStorage.removeItem("doctorToken");
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        // patient
+        patient,
+        patientToken,
+        login,
+        logout,
+        // doctor
+        doctor,
+        doctorToken,
+        loginDoctor,
+        logoutDoctor,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+// Custom hook
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
