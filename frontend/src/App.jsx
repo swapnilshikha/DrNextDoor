@@ -11,6 +11,10 @@ import MainLayout from "./Layout/MainLayout"
 import Profile from "./pages/DoctorProfile"
 import Login from "./pages/Login"
 import Contact from "./pages/Contact"
+
+
+
+import Appointments from './pages/DoctorDashboard';
 import Register from './pages/Register'
 import Home from './pages/Home'
 import {AuthProvider} from './context/AuthPatient'
@@ -28,6 +32,8 @@ const App = () => {
       path:"/",element:<MainLayout/>,
       children:[
         {path:"/",element:<Home/>},
+        {path:"/appointments",element:<Appointments/>},
+        {path:"/profile",element:<Profile/>},
         {path:"/login",element:<Login/>},
         {path:"/register",element:<Register/>},
         {path:"/doctorLogin",element:<DoctorLogin/>},

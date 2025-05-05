@@ -8,15 +8,18 @@ const patientRegister=async(req,res)=>{
     try{
         const {name,email,password}=req.body
         if(!name || !password || !email){
-            res.status(400).send({message:"Please enter all details"})
+            return res.status(400).send({message:"Please enter all details"})
         }
         if(!validator.isEmail(email)){
-            res.status(400).send({message:"Please enter a valid email"})
+            return res.status(400).send({message:"Please enter a valid email"})
         }
         if(password.length<8){
-            res.status(400).send({message:"Please enter a strong password"})
+            return res.status(400).send({message:"Please enter a strong password"})
         }
-
+        const existingPatient = await patientModel.findOne({ email });
+        if (existingPatient) {
+            return res.status(400).json({ message: "Email is already registered" });
+        }
         const patientData={
             name,
             email,
