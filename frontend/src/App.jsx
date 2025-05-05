@@ -8,10 +8,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from "./Layout/MainLayout"
-import Profile from "./pages/Profile"
-import Login from "./pages/Login"
-import Contact from "./pages/Contact"
-import Register from './pages/Register'
+import AdminLogin from "./pages/AdminLogin"
 import Home from './pages/Home'
 import {AuthProvider} from './context/AuthPatient'
 
@@ -21,8 +18,7 @@ const App = () => {
       path:"/",element:<MainLayout/>,
       children:[
         {path:"/",element:<Home/>},
-        {path:"/login",element:<Login/>},
-        {path:"/register",element:<Register/>}
+        {path:"/admin/login",element:<AdminLogin/>},
       ]
     }
   ])

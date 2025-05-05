@@ -52,6 +52,9 @@ const Navbar = () => {
               <li className="nav-item mx-3">
                 <Link className="nav-link fs-5" to="/contact">Contact-Us</Link>
               </li>
+              <li className="nav-item mx-3">
+                <Link className="nav-link fs-5" to="/admin/login">Admin Panel</Link>
+              </li>
             </ul>
 
             <form className="form-inline d-flex align-items-center p-2" style={{ borderRadius: '8px' }}>
