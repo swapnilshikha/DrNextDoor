@@ -34,6 +34,10 @@ const patientSchema=new mongoose.Schema({
         type:String,
         default:"0000000000"
     },
+    appointmemts:{
+        type:Object,
+        default:{}
+    }
 })
 
 const patientModel=mongoose.model('Patients',patientSchema)

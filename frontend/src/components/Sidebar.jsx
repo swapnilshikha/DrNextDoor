@@ -1,20 +1,36 @@
 // components/Sidebar.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
+  const { pathname } = useLocation();
+
+  const navItemStyle = (path) => ({
+    padding: '15px 20px',
+    backgroundColor: pathname === path ? '#333' : 'transparent',
+    color: 'white',
+    textDecoration: 'none',
+    display: 'block',
+    borderBottom: '1px solid #444',
+  });
+
   return (
-    <div className="sidebar">
-      <div className="sidebar-header">
-        <h2>Doctor's Dashboard</h2>
-      </div>
-      <ul className="sidebar-links">
-        <li><Link to="/appointments">Appointments</Link></li>
-        <li><Link to="/profile">Profile</Link></li>
-        <li><Link to="/settings">Settings</Link></li>
-      </ul>
+    <div style={{
+      width: '220px',
+      backgroundColor: '#222',
+      color: 'white',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
+      <h3 style={{ padding: '20px', borderBottom: '1px solid #444' }}>Dr Dashboard</h3>
+      <Link to="/" style={navItemStyle('/')}>Home</Link>
+      <Link to="/appointments" style={navItemStyle('/appointments')}>Appointments</Link>
+      <Link to="/profile" style={navItemStyle('/profile')}>Profile</Link>
+      {/* Add logout or settings here */}
     </div>
   );
 };
 
 export default Sidebar;
+
