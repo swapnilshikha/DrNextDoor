@@ -3,14 +3,15 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const Doctor = require('../models/Doctor');
 
-// Register a new doctor
+
+// Register a new doctor( This is an extra code, doctor registraion will be handled by admin only)
 const registerDoctor = async (req, res) => {
   try {
-    const { name, email, password, specialization } = req.body;
-
-    // Input validation
-    if (!name || !email || !password || !specialization) {
-      return res.status(400).send({ message: "Please enter all required details" });
+    const { name, email, password, specialization, experience, bioMessage } = req.body;
+    const profileImage = req.file?.filename;
+    
+    if (!name || !email || !password || !specialization || !experience || !bioMessage || !profileImage) {
+      return res.status(400).send({ message: "All fields including profile image are required" });
     }
 
     if (!validator.isEmail(email)) {
@@ -31,18 +32,19 @@ const registerDoctor = async (req, res) => {
       email,
       password,
       specialization,
+      experience,
+      bioMessage,
+      profileImage
     });
-
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);  //add radomvalues to the salt
-    doctor.password = await bcrypt.hash(password, salt); //hash the password and make it unreadable
+     //Hash the password
+    const salt = await bcrypt.genSalt(10);
+    doctor.password = await bcrypt.hash(password, salt);
 
     await doctor.save();
 
-    // Generate JWT Token
     const token = jwt.sign({ id: doctor._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(200).send({ token });
+    res.status(200).send({ token ,doctor});
   } catch (error) {
     console.error(error.message);
     res.status(500).send({ message: 'Server Error' });
@@ -53,12 +55,18 @@ const registerDoctor = async (req, res) => {
 const loginDoctor = async (req, res) => {
   try {
     const { email, password } = req.body;
-
+    
     if (!email || !password) {
       return res.status(400).send({ message: "Please enter all required fields" });
     }
 
     let doctor = await Doctor.findOne({ email });
+    console.log(doctor.approved);
+    
+    if(doctor.approved!=='approved')
+      {
+        return res.status(400).send({ message: "you are not approved by admin" })
+      }
     if (!doctor) {
       return res.status(400).send({ message: "Doctor does not exist" });
     }
@@ -71,11 +79,14 @@ const loginDoctor = async (req, res) => {
     // Generate JWT Token
     const token = jwt.sign({ id: doctor._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(200).send({ token, doctorId: doctor._id });
+    res.status(200).send({ token, doctor});
   } catch (error) {
     console.error(error.message);
     res.status(500).send({ message: 'Server Error' });
   }
 };
+
+
+
 
 module.exports = { registerDoctor, loginDoctor };

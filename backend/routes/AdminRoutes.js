@@ -1,0 +1,39 @@
+const express = require('express');
+const {
+  getAllDoctors,
+  getDrById,
+  acceptDoctor,
+  declineDoctor,
+  addDoctor,
+  updateDr,
+  deleteDoctor,
+  adminlogin
+} = require('../controllers/admin.controller.js');
+
+const upload = require('../middlewares/AdminMulter.js'); // use if image upload is needed
+
+const adminRouter = express.Router();
+
+// Admin login
+adminRouter.post('/login', adminlogin);
+
+// Add a new doctor (use 'upload.single' if image is included)
+adminRouter.post('/addDr', upload.single('image'), addDoctor);
+
+// Get all doctors
+adminRouter.get('/allDoctors', getAllDoctors);
+
+// Get doctor by ID
+adminRouter.get('/getDr/:id', getDrById);
+
+// Accept or Decline doctor
+adminRouter.post('/accept/:id', acceptDoctor);
+adminRouter.post('/decline/:id', declineDoctor);
+
+// Update a doctor (use 'upload.single' if updating image)
+adminRouter.put('/updateDr/:id', upload.single('image'), updateDr);
+
+// Delete a doctor
+adminRouter.delete('/deleteDr/:id', deleteDoctor);
+
+module.exports = adminRouter;
