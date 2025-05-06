@@ -23,7 +23,7 @@ const AdminLogin = () => {
         try {
             let email = emailRef.current.value
             let password = passwordRef.current.value
-            let data = await axios.post(`${API}/api/admin/login`, {email, password})
+            let data = await axios.post(`${API}/admin/login`, {email, password})
             console.log(data.data);
             
                 setMessage("Login Successful")
