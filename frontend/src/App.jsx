@@ -18,16 +18,14 @@ import Home from './pages/Home'
 import {AuthProvider} from './context/AuthPatient'
 import DoctorLogin from './pages/DoctorLogin';
 import AboutUs from './pages/About';
-<<<<<<< HEAD
 import PatientProfile from './pages/PatientProfile';
 import UpdatePatient from './pages/UpdatePatient';
-=======
 import DoctorRegister from './pages/DoctorRegister';
 import DoctorProfile from './pages/DoctorProfile';
 import AskQuestion from './pages/AskQuestion';
 import QuestionList from './components/QuestionList'; 
 
->>>>>>> 16fda248173946ae46c96576384d89b6df81c4c5
+
 
 const App = () => {
   const router=createBrowserRouter([
@@ -42,10 +40,8 @@ const App = () => {
         {path:"/register",element:<Register/>},
         {path:"/doctorLogin",element:<DoctorLogin/>},
         {path:"/about",element:<AboutUs/>},
-<<<<<<< HEAD
         {path:"/patientProfile",element:<PatientProfile/>},
-        {path:"/updateProfile",element:<UpdatePatient/>}
-=======
+        {path:"/updateProfile",element:<UpdatePatient/>},
         {path:"/DoctorRegister",element:<DoctorRegister/>},
         {path:"/DoctorProfile",element:<DoctorProfile/>},
         {path:"/contact",element:<Contact/>},
@@ -53,9 +49,6 @@ const App = () => {
         {path:"/questions",element:<QuestionList/>},
         {path:"/doctorDashboard",element:<DoctorDashboard/>}
 
-        
-
->>>>>>> 16fda248173946ae46c96576384d89b6df81c4c5
       ]
     }
   ])

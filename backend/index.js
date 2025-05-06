@@ -2,48 +2,37 @@ const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
 const dotenv = require('dotenv');
-<<<<<<< HEAD
 const path=require('path')
-=======
-const path = require('path');
 
->>>>>>> 16fda248173946ae46c96576384d89b6df81c4c5
+
 const doctorRoutes = require('./routes/doctorRoutes'); 
 const patientRouter = require('./routes/Patient.router.js');
-<<<<<<< HEAD
 const adminRouter = require('./routes/AdminRoutes.js');
 
-=======
 const questionRoutes = require('./routes/questionRoute');
 const app=express()
 const PORT=process.env.PORT || 5000;
->>>>>>> 7ded14f65c096026e7878b865a2a4a24aa94bdd5
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB
 connectDB();
 
 // Middleware
 app.use(express.json());
-<<<<<<< HEAD
 app.use(express.urlencoded({ extended: true })); // handles form-urlencoded
 
 app.use(cors());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-=======
 app.use(express.urlencoded({extended:true}))
 app.use(cors());
-<<<<<<< HEAD
->>>>>>> 16fda248173946ae46c96576384d89b6df81c4c5
+
 
 // Serve static files from /uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API endpoints
-app.use('/api/admin', adminRouter);         // e.g., /api/admin/all
+app.use('/admin', adminRouter);         // e.g., /api/admin/all
 app.use('/api/doctors', doctorRoutes);      // e.g., /api/doctors/register
 app.use('/patient', patientRouter);    // Changed to /api/patients for consistency
 
@@ -52,15 +41,8 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
 
-=======
-//for image uploads
-const path = require('path');
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Routes
 app.use('/api/doctors', doctorRoutes); //handles register, login, profile, all doctors
 app.use('/patient',patientRouter)
@@ -77,4 +59,3 @@ app.listen(PORT, function(){
 
 
 
->>>>>>> 7ded14f65c096026e7878b865a2a4a24aa94bdd5

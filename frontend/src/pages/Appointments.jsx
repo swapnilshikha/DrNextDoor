@@ -1,34 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, {useState, useEffect} from 'react'
+import axios from 'axios'
+import DoctorCard from '../components/DoctorCard'
+import { API } from '../utils/utils.js'
 
 const Appointments = () => {
-  const [appointments, setAppointments] = useState([]);
-  const [profile, setProfile] = useState({});
-  const [loading, setLoading] = useState(true);
+    const [doctors, setDoctors] = useState([])
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const token = localStorage.getItem('doctorToken'); // or wherever you stored the JWT
+    const getDoctors = async () => {
+        try {
+            const  data  = await axios.get(`${API}/admin/allDoctors`)
+            setDoctors(data.data)
+            console.log(doctors);
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
-        const profileRes = await axios.get('/api/doctors/profile', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+    useEffect(() => {
+        getDoctors()
+    }, [])
+  return (
+    <>
+      <div className='row g-2'>
+        {
+            doctors.length > 0? (
+                doctors.map((doctor) => (
+                    <div className='col-md-4' key={doctor._id}>
+                        <DoctorCard doctor={doctor} />
+                    </div>
+                ))
+            ) : (
+                <h2>No Doctors Found</h2>
+            )
+        }
 
-        const appointmentsRes = await axios.get('/api/appointments', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        setProfile(profileRes.data);
-        setAppointments(appointmentsRes.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
+      </div>
+    </>
+  )
 }
-export default Appointments;
+
+export default Appointments
