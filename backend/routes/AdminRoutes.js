@@ -17,13 +17,14 @@ const adminRouter = express.Router();
 adminRouter.post('/login', adminlogin);
 
 // Add a new doctor (use 'upload.single' if image is included)
-adminRouter.post('/addDr', upload.single('image'), addDoctor);
+adminRouter.post('/addDoctor', upload.single('profileImage'), addDoctor)
+
 
 // Get all doctors
 adminRouter.get('/allDoctors', getAllDoctors);
 
 // Get doctor by ID
-adminRouter.get('/getDr/:id', getDrById);
+adminRouter.get('/doctors/:id', getDrById);
 
 // Accept or Decline doctor
 adminRouter.put('/accept/:id', acceptDoctor);
