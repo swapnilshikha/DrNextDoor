@@ -14,10 +14,11 @@ const DoctorCard = ({doctor}) => {
         <img src={`${profileImage}`} className="card-img-top" alt="..." style={{height: '95%', width: '80%'}} />
         <div className="card-body">
             <h5 className="card-title">{name}</h5>
-            <h4 className="card-title">{speciality}</h4>
+            <h4 className="card-title">{specialization}</h4>
             <Link to={`/admin/doctors/${_id}`} className="btn btn-primary">See Details</Link>
         </div>
       </div>
+      
     </>
   )
 }

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { API } from '../utils/utils';
+import { API } from '../utils/utils.js';
 
 const DrDetailsAdmin = () => {
   const { id } = useParams();
@@ -12,15 +12,19 @@ const DrDetailsAdmin = () => {
   const [error, setError] = useState(null);
 
   const getDoctorDetails = async () => {
+
+    console.log(id);
     setLoading(true);
     try {
       console.log(id);
-      const res = await axios.get(`${API}/api/doctors/${id}`);
+      const res = await axios.get(`${API}/admin/doctors/${id}`);
       setDoctor(res.data);
+      console.log(res.data);
+      
     } catch (error) {
       console.log(error);
       setError(error.response?.data?.message || "Something went wrong");
-      navigate("/");
+      //navigate("/");
     } finally {
       setLoading(false);
     }
@@ -62,7 +66,7 @@ const DrDetailsAdmin = () => {
       <h2>Doctor Details</h2>
       <div className='col-md-4'>
         <img
-          src={`${API}/uploads/${doctor.profileImage}`}
+          src={`${API}/uploads/doctors/${doctor.profileImage}`}
           className='img-fluid rounded'
           alt={doctor.name}
           style={{ height: '95%', width: '80%', objectFit: 'cover' }}

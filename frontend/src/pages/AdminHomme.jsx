@@ -26,7 +26,7 @@ const AdminHomme = () => {
         {
             doctors.length > 0? (
                 doctors.map((doctor) => (
-                    <div className='col-md-4' key={doctor._id}>
+                    <div className='col-md-4' key={doctor._id} style={{height:"500px"}}>
                         <DoctorCard doctor={doctor} />
                     </div>
                 ))

@@ -4,7 +4,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path=require('path')
 
-
 const doctorRoutes = require('./routes/doctorRoutes'); 
 const patientRouter = require('./routes/Patient.router.js');
 const adminRouter = require('./routes/AdminRoutes.js');
@@ -14,8 +13,7 @@ const app=express()
 const PORT=process.env.PORT || 5000;
 dotenv.config();
 
-// Connect to MongoDB
-connectDB();
+
 
 // Middleware
 app.use(express.json());
