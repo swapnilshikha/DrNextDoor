@@ -16,7 +16,7 @@ const AddDoctor = () => {
     const degreeRef = useRef()
     const experienceRef = useRef()
     const bioMessageRef = useRef()
-    const statusRef = useRef()
+    const approvedRef = useRef()
     const profileImageRef = useRef()
 
     const handleSubmit = async (e) => {
@@ -32,7 +32,7 @@ const AddDoctor = () => {
         docData.append("degree", degreeRef.current.value)
         docData.append("experience", experienceRef.current.value)
         docData.append("bioMessage", bioMessageRef.current.value)
-        docData.append("status", statusRef.current.value)
+        docData.append("approved", approvedRef.current.value)
         docData.append("profileImage", profileImageRef.current.files[0])
 
         try {
@@ -54,7 +54,7 @@ const AddDoctor = () => {
             degreeRef.current.value = ""
             experienceRef.current.value = ""
             bioMessageRef.current.value = ""
-            statusRef.current.value = "Approved"
+            approvedRef.current.value = "approved"
             profileImageRef.current.value = null
 
         } catch (error) {
@@ -89,7 +89,7 @@ const AddDoctor = () => {
                         Doctor Bio Message :
                         <input type="text" className="form-control" ref={bioMessageRef} required/>
                         Doctor Status :
-                        <select className="form-control" ref={statusRef} required>
+                        <select className="form-control" ref={approvedRef} required>
                             <option value="Approved">Approved</option>
                             <option value="Pending">Pending</option>
                             <option value="Decline">Decline</option>

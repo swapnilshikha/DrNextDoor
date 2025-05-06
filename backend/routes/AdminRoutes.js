@@ -5,7 +5,6 @@ const {
   acceptDoctor,
   declineDoctor,
   addDoctor,
-  updateDr,
   deleteDoctor,
   adminlogin
 } = require('../controllers/admin.controller.js');
@@ -27,13 +26,13 @@ adminRouter.get('/allDoctors', getAllDoctors);
 adminRouter.get('/getDr/:id', getDrById);
 
 // Accept or Decline doctor
-adminRouter.post('/accept/:id', acceptDoctor);
-adminRouter.post('/decline/:id', declineDoctor);
+adminRouter.put('/accept/:id', acceptDoctor);
+adminRouter.delete('/decline/:id', declineDoctor);
 
-// Update a doctor (use 'upload.single' if updating image)
-adminRouter.put('/updateDr/:id', upload.single('image'), updateDr);
+// // Update a doctor (use 'upload.single' if updating image)
+// adminRouter.put('/update/:id', upload.single('image'), updateDr);
 
 // Delete a doctor
-adminRouter.delete('/deleteDr/:id', deleteDoctor);
+adminRouter.delete('/delete/:id', deleteDoctor);
 
 module.exports = adminRouter;

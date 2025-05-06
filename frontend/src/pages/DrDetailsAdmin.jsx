@@ -1,60 +1,98 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+import { API } from '../utils/utils';
 
 const DrDetailsAdmin = () => {
-    const [doctors, setDoctors] = useState([]);
-    const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [doctor, setDoctor] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchDoctors = async () => {
-          try {
-            const res = await axios.get('/api/doctors/all');
-            setDoctors(res.data);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-    
-        fetchDoctors();
-      }, []);
-    
-      const handleAccept = (id) => {
-        // You can call an API to update status
-        alert(`Doctor ${id} accepted`);
-      };
-    
-      const handleDecline = (id) => {
-        // You can call an API to delete/decline the doctor
-        alert(`Doctor ${id} declined`);
-      };
+  const getDoctorDetails = async () => {
+    setLoading(true);
+    try {
+      console.log(id);
+      const res = await axios.get(`${API}/api/doctors/${id}`);
+      setDoctor(res.data);
+    } catch (error) {
+      console.log(error);
+      setError(error.response?.data?.message || "Something went wrong");
+      navigate("/");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDoctorDetails();
+  }, [id]);
+
+  const handleAccept = async (id) => {
+    try {
+      console.log(id);
+      await axios.put(`${API}/admin/accept/${id}`, { approved: 'approved' });
+      alert(`Doctor accepted`);
+      getDoctorDetails(); // Refresh the data
+    } catch (err) {
+      console.error(err);
+      alert("Failed to accept doctor");
+    }
+  };
+
+  const handleDecline = async (id) => {
+    try {
+      await axios.delete(`${API}/admin/decline/${id}`);
+      alert(`Doctor Removed`);
+      navigate("/admin/allDoctors"); // Navigate away after deleting
+    } catch (err) {
+      console.error(err);
+      alert("Failed to decline doctor");
+    }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!doctor) return <p>No doctor data found</p>;
 
   return (
-    <>
-      <div>
-      <h2>Registered Doctors</h2>
-      <ul>
-        {doctors.map(doctor => (
-          <li key={doctor._id}>
-            {doctor.name} - {doctor.specialty}
-            <button onClick={() => setSelectedDoctor(doctor)}>See Details</button>
-          </li>
-        ))}
-      </ul>
+    <div className='row g-3'>
+      <h2>Doctor Details</h2>
+      <div className='col-md-4'>
+        <img
+          src={`${API}/uploads/${doctor.profileImage}`}
+          className='img-fluid rounded'
+          alt={doctor.name}
+          style={{ height: '95%', width: '80%', objectFit: 'cover' }}
+        />
+      </div>
 
-      {selectedDoctor && (
-        <div style={{ marginTop: '20px', border: '1px solid black', padding: '10px' }}>
-          <h3>Doctor Details</h3>
-          <p><strong>Name:</strong> {selectedDoctor.name}</p>
-          <p><strong>Email:</strong> {selectedDoctor.email}</p>
-          <p><strong>Specialty:</strong> {selectedDoctor.specialty}</p>
+      <div className='col-md-8' style={{ marginTop: '20px', border: '1px solid black', padding: '10px' }}>
+        <h3>Doctor Information</h3>
+        <p><strong>Name:</strong> {doctor.name}</p>
+        <p><strong>Email:</strong> {doctor.email}</p>
+        <p><strong>Degree:</strong> {doctor.degree}</p>
+        <p><strong>Specialty:</strong> {doctor.specialty}</p>
+        <p><strong>Experience:</strong> {doctor.experience}</p>
+        <p><strong>Bio:</strong> {doctor.bioMessage}</p>
 
-          <button onClick={() => handleAccept(selectedDoctor._id)}>Accept</button>
-          <button onClick={() => handleDecline(selectedDoctor._id)}>Decline</button>
-        </div>
-      )}
+        {doctor.approved !== 'approved' ? (
+        <>
+          <button className='btn btn-success me-2' onClick={() => handleAccept(doctor._id)}>Accept</button>
+          <button className='btn btn-danger' onClick={() => handleDecline(doctor._id)}>Decline</button>
+        </>
+        ) : (
+        <>
+          {/* <button className='btn btn-primary me-2' onClick={() => navigate(`/admin/update/${doctor._id}`)}>Update</button> */}
+          <button className='btn btn-danger' onClick={() => handleDecline(doctor._id)}>Delete</button>
+        </>
+       )}
+      </div>
     </div>
-    </>
-  )
-}
+  );
+};
 
-export default DrDetailsAdmin
+export default DrDetailsAdmin;
+

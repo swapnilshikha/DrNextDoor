@@ -12,6 +12,7 @@ import AdminLogin from "./pages/AdminLogin"
 import Profile from "./pages/DoctorProfile"
 import Login from "./pages/Login"
 import Contact from "./pages/Contact"
+import Appointments from './pages/DoctorDashboard';
 import Appointments from './pages/Appointments';
 import Register from './pages/Register'
 import Home from './pages/Home'
@@ -23,9 +24,10 @@ import UpdatePatient from './pages/UpdatePatient';
 import DoctorRegister from './pages/DoctorRegister';
 import DoctorProfile from './pages/DoctorProfile';
 import AskQuestion from './pages/AskQuestion';
-import QuestionList from './components/QuestionList'; 
-
-
+import QuestionList from './components/QuestionList';
+import AddDoctor from './pages/AddDoctor';
+import AdminHomme from './pages/AdminHomme';
+import DrDetailsAdmin from './pages/DrDetailsAdmin';
 
 const App = () => {
   const router=createBrowserRouter([
@@ -47,8 +49,12 @@ const App = () => {
         {path:"/contact",element:<Contact/>},
         {path:"/query",element:<AskQuestion/>},
         {path:"/questions",element:<QuestionList/>},
-        {path:"/doctorDashboard",element:<DoctorDashboard/>}
+        {path:"/doctorDashboard",element:<DoctorDashboard/>},
 
+        //admin routes
+        {path:"/admin/allDoctors", element: <AdminHomme />},
+        {path:"/admin/doctors/:id", element: <DrDetailsAdmin />},
+        {path:"/admin/addDoctor", element: <AddDoctor />}
       ]
     }
   ])

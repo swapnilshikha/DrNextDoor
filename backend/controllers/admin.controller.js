@@ -21,7 +21,7 @@ const getAllDoctors = async (req, res) => {
       let doctorList = doctors.map(doctor => (
         {
             ...doctor.toObject(),
-            image:process.env.IMAGE_URL+doctor.image,
+            profileImage:process.env.IMAGE_URL+doctor.profileImage,
         }
       ))
       res.status(200).send(doctorList);
@@ -34,6 +34,7 @@ const getAllDoctors = async (req, res) => {
 async function getDrById(req, res){
     try {
         let { id } = req.params
+        console.log(id)
         let doctor = await Doctor.findOne({_id: id})  //_id is the database id of the user
         if(doctor){
             res.send(doctor)
@@ -45,26 +46,26 @@ async function getDrById(req, res){
     }
 }
 
-async function updateDr(req, res){
-    try{
-        let doctor = req.body
-        let { id } = req.params
-        console.log(doctor)
-        doctor = await Doctor.findOneAndUpdate({_id: id}, doctor, {new: true})
-        if(doctor){
-            res.status(200).send(doctor)
-        } else {
-            res.status(404).send({"message": "Invalid id"})
-        }
-    } catch (error) {
-        res.status(400).send({"message": error.message})
-    }
-}
+// async function updateDr(req, res){
+//     try{
+//         let doctor = req.body
+//         let { id } = req.params
+//         console.log(doctor)
+//         doctor = await Doctor.findOneAndUpdate({_id: id}, doctor, {new: true})
+//         if(doctor){
+//             res.status(200).send(doctor)
+//         } else {
+//             res.status(404).send({"message": "Invalid id"})
+//         }
+//     } catch (error) {
+//         res.status(400).send({"message": error.message})
+//     }
+// }
   
 const acceptDoctor = async (req, res) => {
     try {
-      await Doctor.findByIdAndUpdate(req.params.id, { status : 'Approved' });
-      res.send({ message: 'Doctor accepted' });
+      let doc = await Doctor.findByIdAndUpdate(req.params.id, { approved : 'approved' });
+      res.send({ message: 'Doctor accepted' , doc});
     } catch (err) {
       res.status(500).send({ message: 'Server error' });
     }
@@ -72,6 +73,7 @@ const acceptDoctor = async (req, res) => {
 
 const declineDoctor = async (req, res) => {
     try {
+        console.log(req.params.id)
       await Doctor.findByIdAndDelete(req.params.id);
       res.send({ message: 'Doctor declined and removed' });
     } catch (err) {
@@ -119,7 +121,6 @@ async function adminlogin(req, res) {
   module.exports = {
     addDoctor,
     deleteDoctor,
-    updateDr,
     getAllDoctors,
     getDrById,
     acceptDoctor,
