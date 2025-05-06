@@ -8,6 +8,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from "./Layout/MainLayout"
+import AdminLogin from "./pages/AdminLogin"
+import Profile from "./pages/DoctorProfile"
 import Login from "./pages/Login"
 import Contact from "./pages/Contact"
 import Appointments from './pages/Appointments';
@@ -28,6 +30,7 @@ const App = () => {
       path:"/",element:<MainLayout/>,
       children:[
         {path:"/",element:<Home/>},
+        {path:"/admin/login",element:<AdminLogin/>},
         {path:"/appointments",element:<Appointments/>},
         //{path:"/profile",element:<Profile/>},
         {path:"/login",element:<Login/>},
