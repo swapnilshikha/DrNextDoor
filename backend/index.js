@@ -14,6 +14,7 @@ const PORT=process.env.PORT || 5000;
 dotenv.config();
 
 
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // handles form-urlencoded
@@ -35,7 +36,6 @@ app.use('/patient', patientRouter);    // Changed to /api/patients for consisten
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
-
 
 //for image uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
