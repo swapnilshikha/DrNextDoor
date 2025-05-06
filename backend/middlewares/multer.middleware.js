@@ -2,7 +2,7 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({  //patient image upload and storing
     destination: function (req, file, cb) {
-      cb(null, 'uploads/')
+      cb(null, 'uploads/patients/')
     },
     filename: function (req, file, cb) {
       const newName = Date.now() + '-' + file.originalname
@@ -21,4 +21,5 @@ const storage = multer.diskStorage({  //patient image upload and storing
   
   const uploadDoctor = multer({ storage: doctorStorage });
   const upload = multer({ storage: storage });
+  
   module.exports = {upload,uploadDoctor};

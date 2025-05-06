@@ -2,8 +2,12 @@ const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
 const dotenv = require('dotenv');
+<<<<<<< HEAD
+const path=require('path')
+=======
 const path = require('path');
 
+>>>>>>> 16fda248173946ae46c96576384d89b6df81c4c5
 const doctorRoutes = require('./routes/doctorRoutes'); 
 const patientRouter = require('./routes/Patient.router.js');
 const adminRouter = require('./routes/AdminRoutes.js');
@@ -20,7 +24,19 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+<<<<<<< HEAD
+app.use(express.urlencoded({ extended: true })); // handles form-urlencoded
+
 app.use(cors());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+=======
+app.use(express.urlencoded({extended:true}))
+app.use(cors());
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 16fda248173946ae46c96576384d89b6df81c4c5
+>>>>>>> c1a654ae0eb76c3639882c99838b87b869aedaaa
 
 // Serve static files from /uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

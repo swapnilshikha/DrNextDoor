@@ -6,6 +6,7 @@ const bcrypt=require('bcryptjs')
 //Patient registration
 const patientRegister=async(req,res)=>{
     try{
+        
         const {name,email,password}=req.body
         if(!name || !password || !email){
             return res.status(400).send({message:"Please enter all details"})
@@ -20,10 +21,13 @@ const patientRegister=async(req,res)=>{
         if (existingPatient) {
             return res.status(400).json({ message: "Email is already registered" });
         }
+        const image = req.file?.filename || "default_patient.png"; // fallback if image is not uploaded
+
         const patientData={
             name,
             email,
-            password
+            password,
+            image
         }
 
         const salt=await bcrypt.genSalt(10)
@@ -47,8 +51,8 @@ const patientLogin=async(req,res)=>{
             const isMatch=await bcrypt.compare(password,patient.password)
             
             if(isMatch){
-                let token = jwt.sign({id: patient.id, email: patient.email}, process.env.JWT_SECRET)
-                res.status(200).send({token: token, patient: patient.id})
+                let token = jwt.sign({id: patient._id, email: patient.email}, process.env.JWT_SECRET)
+                res.status(200).send({token: token, patient: patient})
             } else {
                 res.status(400).send({message: "Invalid Credentails"})
             }
@@ -64,15 +68,48 @@ const patientLogin=async(req,res)=>{
 //getting patient data
 const getPatientData=async(req,res)=>{
     try{
-        const {patientId}=req        
-        const patientData=await patientModel.findById(patientId).select('-password')
-        res.status(200).send({patientData})
+        const patientId=req.patientId    
+           
+        const patientData=await patientModel.findOne({_id:patientId})
+        console.log("PatientData",patientData);
+        
+        let modPatient={
+            ...patientData.toObject(),
+            image:process.env.IMAGE_URL+patientData.image
+        }
+        if(modPatient){
+            res.status(200).send(modPatient)
+            
+        }
+        else{
+            res.status(404).send({"message": "Invalid id"})
+
+        }
+        
     }
     catch(error){
         res.status(500).send({message: "Server Error"})
     }
 }
+
+const updateProfile = async (req, res) => {
+    try {
+       const {patientId}=req
+       let patient=req.body
+       if (req.file?.filename) {
+        patient.image = req.file.filename;
+    }       
+       patient=await patientModel.findOneAndUpdate({_id:patientId},patient)
+        
+        res.status(200).send({ patient });
+
+    } catch (error) {
+        res.status(500).send({ message: "Server Error", error: error.message });
+    }
+};
+
 module.exports={patientRegister,
     patientLogin,
-    getPatientData
+    getPatientData,
+    updateProfile
 }

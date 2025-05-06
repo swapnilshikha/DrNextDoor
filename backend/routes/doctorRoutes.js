@@ -1,5 +1,6 @@
 const express = require('express');
-const { registerDoctor, loginDoctor } = require('../controllers/doctorController.js');
+const { registerDoctor, 
+  loginDoctor } = require('../controllers/doctorController.js');
 const authenticateToken = require('../middlewares/authenticateDoctor.js');
 const Doctor = require('../models/Doctor');
 
@@ -13,18 +14,7 @@ doctorRouter.post('/register', uploadDoctor.single('profileImage'), registerDoct
 doctorRouter.post('/login', loginDoctor);
 
 // Get Doctor Profile (Protected)
-doctorRouter.get('/profile', authenticateToken, async (req, res) => {
-  try {
-    const doctor = await Doctor.findById(req.user.id).select('-password');
-    if (!doctor) {
-      return res.status(404).send({ message: 'Doctor not found' });
-    }
-    res.status(200).send(doctor);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send({ message: 'Server Error' });
-  }
-});
+
 
 // Get all doctors (Public)
 doctorRouter.get('/', async (req, res) => {
@@ -65,23 +55,30 @@ doctorRouter.put('/:id', uploadDoctor.single('profileImage'), async (req, res) =
     res.status(500).send({ message: 'Server Error' });
   }
 });
+
+
 // Get Doctor by ID (Public)
-doctorRouter.get('/:id', async (req, res) => {
+doctorRouter.get('/profile',authenticateToken, async (req, res) => {
   try {
-    const doctorId = req.params.id;  // Extract doctor ID from URL params
+    console.log(req.user);
+    let doctorId=req.user
     const doctor = await Doctor.findById(doctorId).select('-password'); // Exclude password from the result
+    let modDoctor={
+      ...doctor.toObject(),
+      profileImage:process.env.IMAGE_URL+doctor.profileImage
+    }
+    console.log(modDoctor.profileImage);
     
-    if (!doctor) {
+    if (!modDoctor) {
       return res.status(404).send({ message: 'Doctor not found' });
     }
 
-    res.status(200).send(doctor);
+    res.status(200).send(modDoctor);
   } catch (error) {
     console.error(error.message);
     res.status(500).send({ message: 'Server Error' });
   }
 });
-
 
 module.exports = doctorRouter;
 

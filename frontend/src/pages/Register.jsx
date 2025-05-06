@@ -1,6 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { API } from './../utils/utils'
+import loginBack from './../assets/login-back.jpg'
+import { FaHospitalUser } from "react-icons/fa";
+import defaultImage from './../assets/default_patient.png'
 
 const Register = () => {
 
@@ -24,11 +27,27 @@ const Register = () => {
         }
         let name = nameRef.current.value
         let email = emailRef.current.value
-            
         
         try {   
-               
-            let patient = await axios.post(`${API}/patient/register`,{name,email,password})
+            const response = await fetch(defaultImage)
+        const blob = await response.blob()
+        const file = new File([blob], "default_image.png", { type: blob.type })
+
+        // Prepare form data
+        const formData = new FormData()
+        formData.append("name", name)
+        formData.append("email", email)
+        formData.append("password", password)
+        formData.append("image", file) 
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        await axios.post(`${API}/patient/register`, formData, config)
+
             setMessage("Account Created")
             nameRef.current.value = ""
             emailRef.current.value = ""
@@ -49,8 +68,8 @@ const Register = () => {
         }
         setLoading(false)
     }
-    useEffect(() => {
-        if(password!==confirmPass){
+    const confirmPassword =(pass)=> {
+        if(password!==pass){
             setPasswordMatch(false)
             setMessage("Both passwords should match")
         }
@@ -58,14 +77,90 @@ const Register = () => {
             setPasswordMatch(true)
             setMessage("")
         }
-      }, [confirmPass]); 
+      } 
+      useEffect(() => {
+              document.body.style.backgroundImage = `url(${loginBack})`
+              document.body.style.backgroundSize = 'cover'
+              document.body.style.backgroundRepeat = 'no-repeat'
+              document.body.style.backgroundPosition = 'center'
+          }, [])
     return (
+        <>
+        <style>
+                {`
+                    .patient-signup-card {
+                        background: rgba(0, 0, 0, 0.6);
+                        color: white;
+                        padding: 60px 40px;
+                        border-radius: 20px;
+                        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+                        max-width: 520px;
+                        width: 100%;
+                        height: 600px;
+                        animation: fadeIn 0.5s ease-in-out;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+
+                    .form-control {
+                        background-color: #121212;
+                        border: 1px solid #333;
+                        color: white;
+                        height: 45px;
+                        font-size: 16px;
+                    }
+
+                    .form-control::placeholder {
+                        color: #bbb;
+                    }
+
+                    .signup-btn {
+                        width: 100%;
+                        padding: 12px;
+                        background-color: white;
+                        color: black;
+                        font-weight: bold;
+                        border: none;
+                        border-radius: 10px;
+                        transition: all 0.3s ease;
+                    }
+
+                    .signup-btn:hover {
+                        color: #e6e6e6;
+                        background-color: grey;
+
+                    }
+
+                    .message-text {
+                        color: #ff4d4d;
+                        text-align: center;
+                        margin-top: 10px;
+                        font-weight: bold;
+                    }
+
+                    
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(30px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                `}
+        </style>
     <div className='row'>
         <div className="col-md-6 mx-auto">
-            <div className="card">
+            <div className="patient-signup-card card" style={{marginLeft:"50%",height:"93%"}}>
                 <div className="card-header">
-                    <h3>Create an Account</h3>
-                    <p>{message}</p>
+                    <div style={{display:"flex",justifyContent:"center"}}>
+                        <FaHospitalUser size={40} style={{ color: 'white' }} />
+                    </div>
+                    <h3 className='text-center'>Welcome, Create an Account</h3>
+                    <p className='message-text'>{message}</p>
                 </div>
                 <div className="card-body">
                     <form method="post" onSubmit={handleSubmit}>
@@ -79,18 +174,20 @@ const Register = () => {
                         <input type='password' className='form-control mb-2' 
                             placeholder='Confirm password' 
                             id="confirmPass"
-                            onChange={(e)=>{setConfirmPass(e.target.value)
-                                setPasswordMatch(password===e.target.value)
-                            }}
+                            onChange={(e)=>confirmPassword(e.target.value)}
                             required /> 
                         {
-                            !loading && <input type='submit' value="Register" className='btn btn-primary' />
+                            !loading && <input type='submit' value="Register" className='signup-btn btn btn-primary' />
                         }
                     </form>
+                    <div className="text-center" style={{ fontSize: "12px", color: "#aaa", marginTop: "10px" }}>
+                                © 2025 DrNextDoor • All rights reserved
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    </>
   )
 }
 
