@@ -5,13 +5,12 @@ const DoctorCard = ({doctor}) => {
 
     if (!doctor) return null;
     let { _id, profileImage, name, speciality } = doctor
-    console.log(doctor)
+    console.log(profileImage)
 
   return (
     <>
       <div className="card">
 
-        <img img src={`${profileImage}`} className="card-img-top" alt="..." style={{height: '95%', width: '80%'}} />
         <img src={`${profileImage}`} className="card-img-top" alt="..." style={{height: '95%', width: '80%'}} />
         <div className="card-body">
             <h5 className="card-title">{name}</h5>

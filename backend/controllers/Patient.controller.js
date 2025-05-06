@@ -75,7 +75,7 @@ const getPatientData=async(req,res)=>{
         
         let modPatient={
             ...patientData.toObject(),
-            image:process.env.IMAGE_URL+patientData.image
+            image:process.env.PATIENT_URL+patientData.image
         }
         if(modPatient){
             res.status(200).send(modPatient)

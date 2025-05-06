@@ -12,7 +12,6 @@ import AdminLogin from "./pages/AdminLogin"
 import Profile from "./pages/DoctorProfile"
 import Login from "./pages/Login"
 import Contact from "./pages/Contact"
-import Appointments from './pages/DoctorDashboard';
 import Appointments from './pages/Appointments';
 import Register from './pages/Register'
 import Home from './pages/Home'
