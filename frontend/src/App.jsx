@@ -8,13 +8,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from "./Layout/MainLayout"
-import Profile from "./pages/DoctorProfile"
 import Login from "./pages/Login"
 import Contact from "./pages/Contact"
-
-
-
-import Appointments from './pages/DoctorDashboard';
+import Appointments from './pages/Appointments';
 import Register from './pages/Register'
 import Home from './pages/Home'
 import {AuthProvider} from './context/AuthPatient'
@@ -24,7 +20,7 @@ import DoctorRegister from './pages/DoctorRegister';
 import DoctorProfile from './pages/DoctorProfile';
 import AskQuestion from './pages/AskQuestion';
 import QuestionList from './components/QuestionList'; 
-import DoctorDashboard from './pages/DoctorDashboard';
+
 
 const App = () => {
   const router=createBrowserRouter([
@@ -33,7 +29,7 @@ const App = () => {
       children:[
         {path:"/",element:<Home/>},
         {path:"/appointments",element:<Appointments/>},
-        {path:"/profile",element:<Profile/>},
+        //{path:"/profile",element:<Profile/>},
         {path:"/login",element:<Login/>},
         {path:"/register",element:<Register/>},
         {path:"/doctorLogin",element:<DoctorLogin/>},

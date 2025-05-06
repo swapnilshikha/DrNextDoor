@@ -10,6 +10,7 @@ const PORT=process.env.PORT || 5000;
 dotenv.config();
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({extended:true}))
 app.use(cors());
 //for image uploads
 const path = require('path');

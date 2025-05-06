@@ -9,6 +9,8 @@ const doctorSchema = new mongoose.Schema({
   experience: { type: String, required: true },
   bioMessage: { type: String, required: true },
   approved:{type:String,default:"not approved"},
+  appointments:{type:Object,default:{}},
+  slots:{type:Object,default:{"morning":"6-9","evening":"5-6"}}
 });
 
 const Doctor = mongoose.model('Doctor', doctorSchema);
