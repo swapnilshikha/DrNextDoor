@@ -3,15 +3,19 @@ import React, { useEffect, useState } from 'react'
 import { API } from './../utils/utils'
 import { useNavigate } from 'react-router-dom'
 import loginBack from './../assets/login-back.jpg'
-import { FaUserMd } from 'react-icons/fa'
+import { FaHospitalUser } from "react-icons/fa";
+import { useAuth } from '../context/AuthPatient'
 
-const DoctorLogin = () => {
+
+const Login = () => {
     const navigate = useNavigate()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
+    const { login } = useAuth();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -20,7 +24,7 @@ const DoctorLogin = () => {
 
         try {
             const res = await axios.post(`${API}/patient/login`, { email, password })
-            console.log(res)
+            login(res.data)
             setEmail("")
             setPassword("")
             navigate("/")
@@ -42,7 +46,7 @@ const DoctorLogin = () => {
         <>
             <style>
                 {`
-                    .doctor-login-card {
+                    .patient-login-card {
                         background: rgba(0, 0, 0, 0.6);
                         color: white;
                         padding: 60px 40px;
@@ -50,7 +54,7 @@ const DoctorLogin = () => {
                         box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
                         max-width: 520px;
                         width: 100%;
-                        height: 600px;
+                        height: 500px;
                         animation: fadeIn 0.5s ease-in-out;
                         display: flex;
                         flex-direction: column;
@@ -81,7 +85,8 @@ const DoctorLogin = () => {
                     }
 
                     .login-btn:hover {
-                        background-color: #e6e6e6;
+                        color: #e6e6e6;
+                        background-color:grey
                     }
 
                     .message-text {
@@ -121,10 +126,10 @@ const DoctorLogin = () => {
                 <div className="row align-items-center" style={{ height: "87vh" }}>
                     <div className="col-md-7"></div>
                     <div className="col-md-5 d-flex justify-content-center align-items-center">
-                        <div className="doctor-login-card">
+                        <div className="patient-login-card">
                             <div>
                                 <div className="text-center mb-4">
-                                    <FaUserMd size={40} style={{ color: 'white' }} />
+                                    <FaHospitalUser size={40} style={{ color: 'white' }} />
                                     <h2 className="mt-2">Welcome,Login Here</h2>
                                     <p style={{ fontSize: "14px", color: "#bbb" }}>
                                         Please login to access your dashboard
@@ -171,4 +176,4 @@ const DoctorLogin = () => {
     )
 }
 
-export default DoctorLogin
+export default Login
