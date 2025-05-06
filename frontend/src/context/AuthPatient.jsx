@@ -4,25 +4,33 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   // PATIENT AUTH STATES
-  const [patient, setPatient] = useState(()=>{
-    const storedPatient=localStorage.getItem('patient');
-    return storedPatient?JSON.parse(storedPatient):null
-  }
-  );
-  const [patientToken, setPatientToken] = useState(
-    localStorage.getItem("patientToken")
-  );
+  const [patient, setPatient] = useState(() => {
+    const storedPatient = localStorage.getItem('patient');
+    return storedPatient ? JSON.parse(storedPatient) : null;
+  });
+  const [patientToken, setPatientToken] = useState(localStorage.getItem("patientToken"));
 
   // DOCTOR AUTH STATES
-  const [doctor, setDoctor] = useState(()=>{
-    const storedDoctor=localStorage.getItem('doctor');
-    return storedDoctor?JSON.parse(localStorage.getItem("doctor")):null
+  const [doctor, setDoctor] = useState(() => {
+    const storedDoctor = localStorage.getItem('doctor');
+    return storedDoctor ? JSON.parse(storedDoctor) : null;
+  });
+  const [doctorToken, setDoctorToken] = useState(localStorage.getItem("doctorToken"));
 
-  }
-  );
-  const [doctorToken, setDoctorToken] = useState(
-    localStorage.getItem("doctorToken")
-  );
+  // ADMIN AUTH STATES
+  const [admin, setAdmin] = useState(() => {
+    const storedAdmin = localStorage.getItem('admin');
+    if (storedAdmin && storedAdmin !== "undefined") {
+      try {
+        return JSON.parse(storedAdmin);
+      } catch (error) {
+        console.error("Failed to parse admin data:", error);
+        return null;
+      }
+    }
+    return null;
+  });
+  const [adminToken, setAdminToken] = useState(localStorage.getItem("adminToken"));
 
   // PATIENT LOGIN / LOGOUT
   const login = (data) => {
@@ -54,6 +62,21 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("doctorToken");
   };
 
+  // ADMIN LOGIN / LOGOUT
+  const loginAdmin = (data) => {
+    setAdmin(data.admin); // store admin info (e.g., name)
+    setAdminToken(data.token);
+    localStorage.setItem("admin", JSON.stringify(data.admin));
+    localStorage.setItem("adminToken", data.token);
+  };
+
+  const logoutAdmin = () => {
+    setAdmin(null);
+    setAdminToken(null);
+    localStorage.removeItem("admin");
+    localStorage.removeItem("adminToken");
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -67,6 +90,11 @@ export const AuthProvider = ({ children }) => {
         doctorToken,
         loginDoctor,
         logoutDoctor,
+        // admin
+        admin,
+        adminToken,
+        loginAdmin,
+        logoutAdmin,
       }}
     >
       {children}
