@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const DoctorCard = ({doctor}) => {
 
     if (!doctor) return null;
-    let { _id, profileImage, name, speciality } = doctor
+    let { _id, profileImage, name, specialization } = doctor
     console.log(profileImage)
 
   return (

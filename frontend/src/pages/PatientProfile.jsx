@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 const PatientProfile = () => {
   const [patient, setPatient] = useState(null)
   const {token} =useAuth() 
-  console.log("Token used:", token);
 
 
   const fetchPatientData = async () => {
@@ -18,9 +17,9 @@ const PatientProfile = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      console.log(response);
       
       setPatient(response.data)
+      
     } 
     catch (error) {
       console.error('Error fetching patient data:', error)

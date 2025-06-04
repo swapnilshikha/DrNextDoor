@@ -1,7 +1,10 @@
 const validator=require('validator')
 const patientModel=require('./../models/Patient.model.js')
+const Doctor=require('./../models/Doctor.js')
+const Appointment=require('../models/Appointment.model.js')
 const jwt=require('jsonwebtoken')
 const bcrypt=require('bcryptjs')
+
 
 //Patient registration
 const patientRegister=async(req,res)=>{
@@ -21,7 +24,7 @@ const patientRegister=async(req,res)=>{
         if (existingPatient) {
             return res.status(400).json({ message: "Email is already registered" });
         }
-        const image = req.file?.filename || "default_patient.png"; // fallback if image is not uploaded
+        const image = req.file?.filename || "default_patient.png";
 
         const patientData={
             name,
@@ -108,8 +111,70 @@ const updateProfile = async (req, res) => {
     }
 };
 
+//get all approved doctors
+const getAllDoctors = async (req, res) => {
+    try {
+      const doctors = await Doctor.find({ approved: "approved" }).select('-password'); // filter by approved
+      const doctorList = doctors.map(doctor => ({
+        ...doctor.toObject(),
+        profileImage: process.env.DOCTOR_URL + doctor.profileImage,
+      }));
+      res.status(200).send(doctorList);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send({ message: 'Server Error' });
+    }
+  };
+  
+
+async function getDrById(req, res){
+    try {
+        console.log(req.params)
+        let { id } = req.params
+
+        
+        let doctor = await Doctor.findOne({_id: id})  //_id is the database id of the user
+        if(doctor){
+            res.send(doctor)
+        } else {
+            res.status(404).send({"message": "Invalid id"})
+        }
+    } catch (error) {
+        res.status(400).send({"message": error.message})
+    }
+}
+
+async function bookAppointment(req,res){
+    try{
+        const {doctorId,date,slot}=req.body
+        const patientId=req.patientId
+        const doctor=await Doctor.findById(doctorId)
+        const existing=await Appointment.findOne({doctorId,date,slot})
+        if(existing){
+            return res.status(400).send({message:"Doctor is already booked"})
+        }
+
+        const newAppointment=await Appointment.create({
+            doctorId,
+            patientId,
+            date,
+            slot,
+            status:'Scheduled'
+        })
+
+        res.status(201).send({ message: "Appointment booked successfully.", newAppointment });
+
+    }
+    catch(error){
+        res.status(500).send({message:"Server error",error:error.message})
+    }
+}
+
 module.exports={patientRegister,
     patientLogin,
     getPatientData,
-    updateProfile
+    updateProfile,
+    getAllDoctors,
+    getDrById,
+    bookAppointment
 }

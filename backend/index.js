@@ -43,8 +43,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/doctors', doctorRoutes); //handles register, login, profile, all doctors
 app.use('/patient',patientRouter)
 app.use('/api/questions', questionRoutes);
-const appointmentRoutes = require('./routes/appointment-routes');
-app.use('/api/appointments', appointmentRoutes);
 
 
 
