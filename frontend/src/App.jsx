@@ -12,10 +12,6 @@ import AdminLogin from "./pages/AdminLogin"
 import Profile from "./pages/DoctorProfile"
 import Login from "./pages/Login"
 import Contact from "./pages/Contact"
-<<<<<<< HEAD
-=======
-import Appointments from './pages/DoctorDashboard';
->>>>>>> f5d2f228c35e2c2ff44d0935e477dab142e9100c
 import Appointments from './pages/Appointments';
 import Register from './pages/Register'
 import Home from './pages/Home'
@@ -27,12 +23,8 @@ import UpdatePatient from './pages/UpdatePatient';
 import DoctorRegister from './pages/DoctorRegister';
 import DoctorProfile from './pages/DoctorProfile';
 import AskQuestion from './pages/AskQuestion';
-<<<<<<< HEAD
 import QuestionList from './components/QuestionList'; 
 
-=======
-import QuestionList from './components/QuestionList';
->>>>>>> f5d2f228c35e2c2ff44d0935e477dab142e9100c
 import AddDoctor from './pages/AddDoctor';
 import AdminHomme from './pages/AdminHomme';
 import DrDetailsAdmin from './pages/DrDetailsAdmin';
@@ -63,10 +55,6 @@ const App = () => {
         {path:"/admin/allDoctors", element: <AdminHomme />},
         {path:"/admin/doctors/:id", element: <DrDetailsAdmin />},
         {path:"/admin/addDoctor", element: <AddDoctor />}
-<<<<<<< HEAD
-
-=======
->>>>>>> f5d2f228c35e2c2ff44d0935e477dab142e9100c
       ]
     }
   ])

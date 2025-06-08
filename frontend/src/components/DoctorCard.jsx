@@ -9,19 +9,13 @@ const DoctorCard = ({doctor}) => {
 
   return (
     <>
-      <div className="card">
-
-        <img src={`${profileImage}`} className="card-img-top" alt="..." style={{height: '300px'}} />
-        <div className="card-body" >
-
-        <img img src={`${profileImage}`} className="card-img-top" alt="..." style={{height: '95%', width: '80%'}} />
-        <img src={`${profileImage}`} className="card-img-top" alt="..." style={{height: '95%', width: '80%'}} />
+      <div className="card" style={{height: '500px'}}>
+        <img src={`${profileImage}`} className="card-img-top" alt="..." style={{height: '80%', width: '75%'}} />
         <div className="card-body">
             <h5 className="card-title">{name}</h5>
             <h4 className="card-title">{specialization}</h4>
             <Link to={`/admin/doctors/${_id}`} className="btn btn-primary">See Details</Link>
         </div>
-      </div>
       </div>
     </>
   )
