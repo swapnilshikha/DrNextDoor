@@ -28,6 +28,7 @@ import QuestionList from './components/QuestionList';
 import AddDoctor from './pages/AddDoctor';
 import AdminHomme from './pages/AdminHomme';
 import DrDetailsAdmin from './pages/DrDetailsAdmin';
+import BookAppointments from './pages/BookAppointments';
 
 const App = () => {
   const router=createBrowserRouter([
@@ -40,7 +41,9 @@ const App = () => {
         //{path:"/profile",element:<Profile/>},
         {path:"/login",element:<Login/>},
         {path:"/register",element:<Register/>},
+        {path:"/doctors/:id",element:<BookAppointments/>},
         {path:"/doctorLogin",element:<DoctorLogin/>},
+
         {path:"/about",element:<AboutUs/>},
         {path:"/patientProfile",element:<PatientProfile/>},
         {path:"/updateProfile",element:<UpdatePatient/>},
@@ -50,6 +53,7 @@ const App = () => {
         {path:"/query",element:<AskQuestion/>},
         {path:"/questions",element:<QuestionList/>},
         {path:"/doctorDashboard",element:<DoctorDashboard/>},
+
 
         //admin routes
         {path:"/admin/allDoctors", element: <AdminHomme />},

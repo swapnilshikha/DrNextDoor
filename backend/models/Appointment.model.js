@@ -7,12 +7,13 @@ const appointmentSchema = new mongoose.Schema({
     ref: 'Doctor',
     required: true,
   },
-  patientName: {
-    type: String,
+  patientId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Patients',
     required: true,
   },
   date: String,
-  time: String,
+  slot: String,
   status: {
     type: String,
     default: 'Scheduled',

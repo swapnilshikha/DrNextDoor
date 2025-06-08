@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
     const storedPatient = localStorage.getItem('patient');
     return storedPatient ? JSON.parse(storedPatient) : null;
   });
-  const [patientToken, setPatientToken] = useState(localStorage.getItem("patientToken"));
+  const [token, setToken] = useState(localStorage.getItem("patientToken"));
 
   // DOCTOR AUTH STATES
   const [doctor, setDoctor] = useState(() => {
@@ -35,14 +35,22 @@ export const AuthProvider = ({ children }) => {
   // PATIENT LOGIN / LOGOUT
   const login = (data) => {
     setPatient(data.patient);
-    setPatientToken(data.token);
+    setToken(data.token);
     localStorage.setItem("patient", JSON.stringify(data.patient));
     localStorage.setItem("patientToken", data.token);
+    if(doctor){
+      localStorage.removeItem("doctor")
+      localStorage.removeItem("doctorToken")
+    }
+    if(admin){
+      localStorage.removeItem("admin")
+      localStorage.removeItem("adminToken")
+    }
   };
 
   const logout = () => {
     setPatient(null);
-    setPatientToken(null);
+    setToken(null);
     localStorage.removeItem("patient");
     localStorage.removeItem("patientToken");
   };
@@ -53,6 +61,14 @@ export const AuthProvider = ({ children }) => {
     setDoctorToken(data.token);
     localStorage.setItem("doctor", JSON.stringify(data.doctor));
     localStorage.setItem("doctorToken", data.token);
+    if(patient){
+      localStorage.removeItem("patient")
+      localStorage.removeItem("patientToken")
+    }
+    if(admin){
+      localStorage.removeItem("admin")
+      localStorage.removeItem("adminToken")
+    }
   };
 
   const logoutDoctor = () => {
@@ -68,6 +84,14 @@ export const AuthProvider = ({ children }) => {
     setAdminToken(data.token);
     localStorage.setItem("admin", JSON.stringify(data.admin));
     localStorage.setItem("adminToken", data.token);
+    if(doctor){
+      localStorage.removeItem("doctor")
+      localStorage.removeItem("doctorToken")
+    }
+    if(patient){
+      localStorage.removeItem("patient")
+      localStorage.removeItem("patientToken")
+    }
   };
 
   const logoutAdmin = () => {
@@ -82,7 +106,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         // patient
         patient,
-        patientToken,
+        token,
         login,
         logout,
         // doctor

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import DoctorCard from '../components/DoctorCard'
+import Book from '../components/Book'
 import { API } from '../utils/utils.js'
 
 const Appointments = () => {
@@ -8,7 +8,7 @@ const Appointments = () => {
 
     const getDoctors = async () => {
         try {
-            const  data  = await axios.get(`${API}/admin/allDoctors`)
+            const  data  = await axios.get(`${API}/patient/getAllDoctors`)
             setDoctors(data.data)
             console.log(doctors);
             
@@ -27,7 +27,7 @@ const Appointments = () => {
             doctors.length > 0? (
                 doctors.map((doctor) => (
                     <div className='col-md-4' key={doctor._id}>
-                        <DoctorCard doctor={doctor} />
+                        <Book doctor={doctor} />
                     </div>
                 ))
             ) : (

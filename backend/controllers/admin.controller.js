@@ -21,7 +21,7 @@ const getAllDoctors = async (req, res) => {
       let doctorList = doctors.map(doctor => (
         {
             ...doctor.toObject(),
-            profileImage:process.env.IMAGE_URL+doctor.profileImage,
+            profileImage:process.env.DOCTOR_URL+doctor.profileImage,
         }
       ))
       res.status(200).send(doctorList);
