@@ -30,3 +30,8 @@ DrNextDoor is a full-stack MERN (MongoDB, Express, React, Node.js) web applicati
 - npm i dotenv
 - npm i multer
 - npm i -D nodemon
+
+Feel free to reach out for any queries, suggestions, or collaboration opportunities.
+We’re always happy to collaborate and are open to feedback that helps improve DrNextDoor. Whether you're a developer, designer, or someone with ideas — we welcome your input!
+
+🔗 LinkedIn: https://www.linkedin.com/in/swapnilshikha-bhakat-264221270/
